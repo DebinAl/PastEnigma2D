@@ -1,32 +1,31 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleButtonScript : MonoBehaviour
 {
     public int id;
-    private GameObject _button;
-    private SpriteRenderer _renderer;
-
-    [SerializeField] private Material _active;
-    [SerializeField] private Material _notActive;
+    private Image _buttonImage;
+    private Button _button;
 
     private void Awake()
     {
-        _renderer = GetComponent<SpriteRenderer>();
-        _button = gameObject;
+        _buttonImage = GetComponent<Image>();
+        _button = GetComponent<Button>();
     }
 
     private void Start()
     {
-        GameEventHandler.instance.OnStartButtonPress += OnPuzzleStarted;
+        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress; ;
     }
 
     private void OnDestroy()
     {
-        GameEventHandler.instance.OnStartButtonPress -= OnPuzzleStarted;
+        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
     }
 
-    private void OnPuzzleStarted()
-    {       
-        Debug.Log("aktif anjing");
+    private void Instance_OnStartButtonPress()
+    {
+        _button.interactable = true;
+        _buttonImage.enabled = true;
     }
 }

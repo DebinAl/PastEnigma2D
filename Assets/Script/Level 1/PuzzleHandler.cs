@@ -1,68 +1,65 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PuzzleHandler : MonoBehaviour
 {
-    public ArrayList _puzzleAnswer = new();
-    private ArrayList _answerAttempt = new();
-
-    [SerializeField] private GameObject[] _puzzleButton;
-    [SerializeField] private GameObject _startButton;
-
-    public void PuzzleStart()
+    private List<int> _answerList = new();
+    private List<int> _answerAttempt = new();
+    
+    private void Start()
     {
-        ButtonSetActive();
-
-        PuzzleLogic();
-
-        AnswerAttempt();
+        GameEventHandler.instance.OnStartButtonPress += CreateAnswer;
+        GameEventHandler.instance.OnPuzzlePress += Instance_OnPuzzlePress;
     }
 
-    private void ButtonSetActive()
+    private void OnDestroy()
     {
-        foreach (var obj in _puzzleButton)
+        GameEventHandler.instance.OnStartButtonPress -= CreateAnswer;
+        GameEventHandler.instance.OnPuzzlePress -= Instance_OnPuzzlePress;
+    }
+
+    private void Instance_OnPuzzlePress(int id)
+    {
+        _answerAttempt.Add(id);
+        if(_answerAttempt.Count.Equals(_answerList.Count))
         {
-            obj.SetActive(true);
+            CheckAnswer();
         }
-
-        _startButton.SetActive(false);
     }
 
-    private void PuzzleLogic()
+    private void CreateAnswer()
     {
-        int rand = Random.Range(0, 4);
-
-        _puzzleAnswer.Add($"Button ({rand})");
-    }
-
-    private void AnswerAttempt()
-    {
-        if (_answerAttempt.Equals(_puzzleAnswer))
+        if (_answerList.Count < 4)
         {
-            _answerAttempt.Clear();
-            PuzzleLogic();
+            _answerList.Add(Random.Range(0, 3));
         }
         else
         {
-            PuzzleReset();
+            Debug.Log("Done");
         }
-    }
 
-    private void PuzzleReset()
-    {
-        _puzzleAnswer.Clear();
-        _answerAttempt.Clear();
+        var strings = "answer: ";
 
-        foreach (var obj in _puzzleButton)
+        foreach (var i in _answerList)
         {
-            obj.SetActive(false);
+            strings += i.ToString();
         }
-
-        _startButton.SetActive(true);
+        Debug.Log(strings);
     }
 
-    public void SetAnswer(string e)
+    private void CheckAnswer()
     {
-        _answerAttempt.Add(e);
+        if (_answerAttempt.SequenceEqual(_answerList))
+        {
+            _answerAttempt.Clear();
+            CreateAnswer();
+        }
+        else
+        {
+            Debug.Log("You Lose");
+        }
     }
+
 }

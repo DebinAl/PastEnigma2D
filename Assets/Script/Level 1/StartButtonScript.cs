@@ -1,26 +1,30 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StartButtonScript : MonoBehaviour
 {
-    private GameObject _startButton;
+    private Image _buttonImage;
+    private Button _button;
 
     private void Awake()
     {
-        _startButton = gameObject;
+        _buttonImage = GetComponent<Image>();
+        _button = GetComponent<Button>();
     }
 
     private void Start()
     {
-        GameEventHandler.instance.OnStartButtonPress += StartButtonAction;
+        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
     }
 
     private void OnDestroy()
     {
-        GameEventHandler.instance.OnStartButtonPress -= StartButtonAction;
+        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
     }
 
-    public void StartButtonAction()
+    private void Instance_OnStartButtonPress()
     {
-        _startButton.SetActive(false);
+        _buttonImage.enabled = false;
+        _button.interactable = false;
     }
 }

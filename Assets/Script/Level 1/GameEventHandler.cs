@@ -14,6 +14,7 @@ public class GameEventHandler : MonoBehaviour
 
     public void StartButtonPress()
     {
+        Debug.Log("Pressed!");
         OnStartButtonPress?.Invoke();
     }
 }

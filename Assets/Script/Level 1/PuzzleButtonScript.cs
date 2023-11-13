@@ -27,6 +27,6 @@ public class PuzzleButtonScript : MonoBehaviour
 
     private void OnPuzzleStarted()
     {       
-        _button.SetActive(true);
+        Debug.Log("aktif anjing");
     }
 }

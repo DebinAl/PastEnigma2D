@@ -14,25 +14,56 @@ private Vector3 offset = new(0f, 2f, -10f);
     //velocity ref
     private float velocity = 0f;
     private Vector3 velocityV3 = Vector3.zero;
+    private bool _isActive = true;
 
-    //serializeField
+    //serializeField 
     [SerializeField] private Transform cursorRef;
     [SerializeField] private Camera cam;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
+        GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
+        GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+    }
+
+    private void OnDisable()
+    {
+        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
+        GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
+        GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+    }
+
     void Update()
     {
-        CameraZoom();
-        
-        //changing the orthograpicSize
-        cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, zoomFollowUp);
+        if (_isActive)
+        {
+            CameraZoom();
 
-        //reset the z value of the cursor
-        cursorPos = new Vector3(cursorRef.position.x, cursorRef.position.y, 0);
+            //changing the orthograpicSize
+            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, zoomFollowUp);
 
-        //Smooth Camera
-        Vector3 targetPosition = offset + cursorPos;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocityV3, camFollowUp);
+            //reset the z value of the cursor
+            cursorPos = new Vector3(cursorRef.position.x, cursorRef.position.y, 0);
+
+            //Smooth Camera
+            Vector3 targetPosition = offset + cursorPos;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocityV3, camFollowUp);
+        }
+        else
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, new Vector3(2f, 3f, -10f), ref velocityV3, camFollowUp);
+        }
+    }
+
+    private void Instance_OnPuzzleDone()
+    {
+        _isActive = true;
+    }
+
+    private void Instance_OnStartButtonPress()
+    {
+        _isActive = false;
     }
 
     private void CameraZoom()

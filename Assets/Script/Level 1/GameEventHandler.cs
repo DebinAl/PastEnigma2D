@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameEventHandler : MonoBehaviour
@@ -6,9 +7,10 @@ public class GameEventHandler : MonoBehaviour
     public static GameEventHandler instance;
 
     public event Action OnStartButtonPress;
-    public event Action OnPuzzleProgress;
     public event Action<int> OnPuzzlePress;
     public event Action OnPuzzleFailed;
+    public event Action<List<int>> OnPuzzleSequence;
+    public event Action OnPuzzleDone;
 
     private void Awake()
     {
@@ -20,18 +22,23 @@ public class GameEventHandler : MonoBehaviour
         OnStartButtonPress?.Invoke();
     }
 
-    public void PuzzleProggress()
-    {
-        OnPuzzleProgress?.Invoke();
-    }
-
     public void PuzzlePress(int e)
     {
         OnPuzzlePress?.Invoke(e);
     }
 
-    public void Puzzlefailed()
+    public void PuzzleFailed()
     {
         OnPuzzleFailed?.Invoke();
+    }
+
+    public void PuzzleDone()
+    {
+        OnPuzzleDone?.Invoke();
+    }
+
+    public void PuzzleSequence(List<int> e)
+    {
+        OnPuzzleSequence?.Invoke(e);
     }
 }

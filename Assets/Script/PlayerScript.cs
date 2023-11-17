@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -8,17 +6,53 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float _pJump;
 
     private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
     private Vector2 _movement;
     private float _direction;
     private bool _isGrounded = true;
+    private bool _isActive = true;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
+        GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
+        GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
     }
 
-    // Update is called once per frame
+    private void OnDisable()
+    {
+        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
+        GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
+        GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+    }
+
+
     void Update()
+    {
+        if (_isActive)
+        {
+            _spriteRenderer.enabled = true;
+            PlayerMovement();
+        }
+        else
+        {
+            _spriteRenderer.enabled = false;
+        }
+    }
+
+    private void Instance_OnPuzzleDone()
+    {
+        _isActive = true;
+    }
+
+    private void Instance_OnStartButtonPress()
+    {
+        _isActive = false;
+    }
+
+    private void PlayerMovement()
     {
         //Movement Logic
         _direction = Input.GetAxis("Horizontal");
@@ -28,7 +62,7 @@ public class PlayerScript : MonoBehaviour
         //jump logic
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
-            if(_isGrounded)
+            if (_isGrounded)
             {
                 _rb.velocity = new Vector2(0, _pJump);
             }

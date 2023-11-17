@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PuzzleHandler : MonoBehaviour
@@ -23,42 +24,57 @@ public class PuzzleHandler : MonoBehaviour
     private void Instance_OnPuzzlePress(int id)
     {
         _answerAttempt.Add(id);
-        if(_answerAttempt.Count.Equals(_answerList.Count))
+
+        var e = 0;
+        var i = _answerAttempt.Count;
+
+        while (e < i)
+        {            
+            if(_answerAttempt[e] != _answerList[e])
+            {
+                CheckAnswer();
+            }
+
+            e++;
+        }
+        
+        if (_answerAttempt.Count.Equals(_answerList.Count))
         {
             CheckAnswer();
         }
+
     }
 
     private void CreateAnswer()
     {
-        if (_answerList.Count < 4)
+        if (_answerList.Count < 6)
         {
-            _answerList.Add(Random.Range(0, 3));
+            _answerList.Add(Random.Range(0, 4));
+            AnswerSequence();
         }
         else
         {
-            Debug.Log("Done");
+            GameEventHandler.instance.PuzzleDone(); 
         }
+    }
 
-        var strings = "answer: ";
-
-        foreach (var i in _answerList)
-        {
-            strings += i.ToString();
-        }
-        Debug.Log(strings);
+    private void AnswerSequence()
+    {
+        GameEventHandler.instance.PuzzleSequence(_answerList);
     }
 
     private void CheckAnswer()
     {
-        if (_answerAttempt.SequenceEqual(_answerList))
+        if (_answerAttempt.SequenceEqual(_answerList) && _answerList.Count != 0)
         {
             _answerAttempt.Clear();
             CreateAnswer();
         }
         else
         {
-            Debug.Log("You Lose");
+            _answerAttempt.Clear();
+            _answerList.Clear();
+            GameEventHandler.instance.PuzzleFailed();
         }
     }
 

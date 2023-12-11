@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseFollowScript : MonoBehaviour
 {
-    private Vector3 _offsett = new Vector3(0f, 0.5f, -10f);
+    private Vector3 _offsett = new(0f, 0.5f, -10f);
     private Vector3 _mousePos;
     private Vector3 _targetPos;
     private bool _isActive = true;

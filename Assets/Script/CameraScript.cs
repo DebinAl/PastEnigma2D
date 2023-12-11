@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-private Vector3 offset = new(0f, 2f, -10f);
+    private Vector3 offset = new(0f, 2f, -10f);
     private float camFollowUp = 0.2f;
     private float zoom = 6f;
     private float zoomTimer = 7f;

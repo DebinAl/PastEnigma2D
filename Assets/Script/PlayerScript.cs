@@ -11,6 +11,9 @@ public class PlayerScript : MonoBehaviour
     private float _direction;
     private bool _isGrounded = true;
     private bool _isActive = true;
+   
+
+    Animator animator;
 
     void Start()
     {
@@ -19,6 +22,7 @@ public class PlayerScript : MonoBehaviour
         GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
         GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
         GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+        animator = GetComponent<Animator>();
     }
 
     private void OnDisable()
@@ -35,11 +39,15 @@ public class PlayerScript : MonoBehaviour
         {
             _spriteRenderer.enabled = true;
             PlayerMovement();
+            Facing();
+            Animations();
         }
         else
         {
             _spriteRenderer.enabled = false;
         }
+
+
     }
 
     private void Instance_OnPuzzleDone()
@@ -77,7 +85,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-        private void OnTriggerExit2D (Collider2D other)
+    private void OnTriggerExit2D (Collider2D other)
     {
         if (other.CompareTag("Ground"))
         {
@@ -85,4 +93,26 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+
+    void Facing()
+    {
+        // if player is moving left scale = -1
+        if (_direction < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        // if player is moving right scale = 1
+        if (_direction > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    void Animations()
+    {
+        // if player is moving then play walking animation
+        animator.SetFloat("Moving", Mathf.Abs(_direction));
+        animator.SetFloat("Speed", Mathf.Abs(_direction));
+        animator.SetBool("_isGrounded", _isGrounded);
+    }
 }

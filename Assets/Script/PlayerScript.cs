@@ -112,7 +112,8 @@ public class PlayerScript : MonoBehaviour
     {
         // if player is moving then play walking animation
         animator.SetFloat("Moving", Mathf.Abs(_direction));
-        animator.SetFloat("Speed", Mathf.Abs(_direction));
         animator.SetBool("_isGrounded", _isGrounded);
     }
+
+   
 }

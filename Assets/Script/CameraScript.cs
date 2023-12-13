@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraScript : MonoBehaviour
 {
@@ -22,16 +23,22 @@ public class CameraScript : MonoBehaviour
 
     private void Start()
     {
-        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
-        GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
-        GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+        if (SceneManager.GetActiveScene().name == "LevelScene")
+        {
+            GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
+            GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
+            GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+        }
     }
 
     private void OnDisable()
     {
-        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
-        GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
-        GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+        if (SceneManager.GetActiveScene().name == "LevelScene")
+        {
+            GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
+            GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+            GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
+        }
     }
 
     void Update()

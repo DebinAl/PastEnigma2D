@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -17,19 +18,27 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().name == "LevelScene")
+        {
+            GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
+            GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
+            GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+        }
+
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
-        GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
-        GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
         animator = GetComponent<Animator>();
     }
 
     private void OnDisable()
     {
-        GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
-        GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
-        GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+        if (SceneManager.GetActiveScene().name == "LevelScene")
+        {
+            GameEventHandler.instance.OnStartButtonPress -= Instance_OnStartButtonPress;
+            GameEventHandler.instance.OnPuzzleDone -= Instance_OnPuzzleDone;
+            GameEventHandler.instance.OnPuzzleFailed -= Instance_OnPuzzleDone;
+        }
+
     }
 
 

@@ -37790,7 +37790,7 @@ GameObject:
   - component: {fileID: 202391060}
   - component: {fileID: 202391062}
   - component: {fileID: 202391061}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38298,7 +38298,7 @@ GameObject:
   - component: {fileID: 615118188}
   - component: {fileID: 615118187}
   - component: {fileID: 615118189}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38376,7 +38376,7 @@ GameObject:
   - component: {fileID: 616741379}
   - component: {fileID: 616741381}
   - component: {fileID: 616741380}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38582,7 +38582,7 @@ GameObject:
   - component: {fileID: 814966662}
   - component: {fileID: 814966661}
   - component: {fileID: 814966664}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Start Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38724,7 +38724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1159873797}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38766,7 +38766,7 @@ GameObject:
   - component: {fileID: 1161422408}
   - component: {fileID: 1161422410}
   - component: {fileID: 1161422409}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38944,7 +38944,7 @@ GameObject:
   - component: {fileID: 1335606576}
   - component: {fileID: 1335606578}
   - component: {fileID: 1335606577}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39122,7 +39122,7 @@ GameObject:
   - component: {fileID: 1420574454}
   - component: {fileID: 1420574453}
   - component: {fileID: 1420574452}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -39254,7 +39254,7 @@ GameObject:
   - component: {fileID: 1472391194}
   - component: {fileID: 1472391193}
   - component: {fileID: 1472391192}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39334,7 +39334,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1472391194}
   m_OnClick:
     m_PersistentCalls:
@@ -39447,7 +39447,7 @@ GameObject:
   - component: {fileID: 1557061820}
   - component: {fileID: 1557061819}
   - component: {fileID: 1557061818}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39669,8 +39669,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674815184}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 3, z: -1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39694,7 +39694,7 @@ GameObject:
   - component: {fileID: 1694195528}
   - component: {fileID: 1694195527}
   - component: {fileID: 1694195526}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39954,7 +39954,7 @@ GameObject:
   - component: {fileID: 1763050863}
   - component: {fileID: 1763050865}
   - component: {fileID: 1763050864}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40134,7 +40134,7 @@ GameObject:
   - component: {fileID: 2090445228}
   - component: {fileID: 2090445227}
   - component: {fileID: 2090445226}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Puzzle Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40198,7 +40198,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -40212,7 +40212,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2090445225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40238,7 +40238,7 @@ GameObject:
   - component: {fileID: 2117605956}
   - component: {fileID: 2117605955}
   - component: {fileID: 2117605954}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40379,11 +40379,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 1212378056}
   - {fileID: 1364655241}
+  - {fileID: 1548464945}
+  - {fileID: 1931248955}
   - {fileID: 1420574454}
   - {fileID: 1745408901}
   - {fileID: 660070170}
   - {fileID: 601840097}
   - {fileID: 2090445229}
   - {fileID: 1674815186}
-  - {fileID: 1931248955}
-  - {fileID: 1548464945}

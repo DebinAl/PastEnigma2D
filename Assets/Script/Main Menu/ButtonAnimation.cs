@@ -13,7 +13,6 @@ public class ButtonAnimation : MonoBehaviour
     {
         _image = GetComponent<Image>();
         _color = _image.color;
-        Debug.Log(_color.a);
     }
 
     public void OnPointerEnter()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,9 +50,8 @@ public class PuzzleButtonScript : MonoBehaviour
     private void Instance_OnPuzzleSequence(List<int> obj)
     {
         StopAllCoroutines();
-        List<int> aList = obj;
 
-        StartCoroutine(Queue(aList));    
+        StartCoroutine(Queue(obj));    
         _button.interactable = false;        
     }
 

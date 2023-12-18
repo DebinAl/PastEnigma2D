@@ -33,15 +33,6 @@ public class MouseFollowScript : MonoBehaviour
         }
             
     }
-
-    void Update()
-    {
-        if (_isActive)
-        {
-            MouseFollow();
-        }
-    }
-
     private void Instance_OnPuzzleDone()
     {
         _isActive = true;
@@ -52,11 +43,19 @@ public class MouseFollowScript : MonoBehaviour
         _isActive = false;
     }
 
+    void Update()
+    {
+        if (_isActive)
+        {
+            MouseFollow();
+        }
+    }
+
     private void MouseFollow()
     {
         _mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
-        _targetPos = (_player.position + _mousePos) / 2f;
+        Vector3 playerPosition = new(_player.position.x, 0, _player.position.z);
+        _targetPos = (playerPosition + _mousePos) / 2f;
 
         _targetPos.x = Mathf.Clamp(_targetPos.x, -_thresholdX + _player.position.x, _thresholdX + _player.position.x);
         _targetPos.y = Mathf.Clamp(_targetPos.y, (-_thresholdY / 2f) + _player.position.y, _thresholdY + _player.position.y);

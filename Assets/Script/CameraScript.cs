@@ -1,33 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CameraScript : MonoBehaviour
 {
-    private Vector3 offset = new(0f, 2f, -10f);
-    private float camFollowUp = 0.2f;
-    private float zoom = 6f;
-    private float zoomTimer = 7f;
-    private float zoomFollowUp = 0.5f;
-    private Vector3 cursorPos;
+    //camera
+    private Vector3 _cameraOffset = new(0f, 2f, -10f);
+    private readonly float _camSpeed = 0.2f; //speed for smoothdamp
+
+    //zoom
+    private float _zoomTimer; //how long it takes before zoom reset
+    private float _orthoTarget;
+    private readonly float _defaultOrtho = 6f;
+    private readonly float zoomSpeed = 0.5f; //speed when changing zoom
 
     //velocity ref
     private float velocity = 0f;
     private Vector3 velocityV3 = Vector3.zero;
+
+    //bool
     private bool _isActive = true;
 
     //serializeField 
     [SerializeField] private Transform cursorRef;
-    [SerializeField] private Camera cam;
+    [SerializeField] private Camera mainCam;
+
+    //puzzle
+    private Canvas _puzzleCanvas;
+    private Camera _puzzleCamera;
 
     private void Start()
     {
+        _orthoTarget = _defaultOrtho;
+
         if (SceneManager.GetActiveScene().name == "LevelScene")
         {
             GameEventHandler.instance.OnStartButtonPress += Instance_OnStartButtonPress;
             GameEventHandler.instance.OnPuzzleDone += Instance_OnPuzzleDone;
             GameEventHandler.instance.OnPuzzleFailed += Instance_OnPuzzleDone;
+
+            _puzzleCanvas = GameObject.FindGameObjectWithTag("PuzzleCanvas").transform.GetComponent<Canvas>();
+            _puzzleCamera = GameObject.FindGameObjectWithTag("PuzzleCamera").transform.GetComponent<Camera>();
+            _puzzleCamera.enabled = false;
         }
     }
 
@@ -41,36 +55,36 @@ public class CameraScript : MonoBehaviour
         }
     }
 
+    private void Instance_OnPuzzleDone()
+    {
+        _isActive = true;
+        _puzzleCanvas.worldCamera = mainCam;
+        ChangePuzzleCamera();
+    }
+
+    private void Instance_OnStartButtonPress()
+    {
+        _isActive = false;
+        _puzzleCanvas.worldCamera = _puzzleCamera;
+        ChangePuzzleCamera();
+    }
+
     void Update()
     {
         if (_isActive)
         {
             CameraZoom();
 
-            //changing the orthograpicSize
-            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, zoomFollowUp);
-
-            //reset the z value of the cursor
-            cursorPos = new Vector3(cursorRef.position.x, cursorRef.position.y, 0);
-
             //Smooth Camera
-            Vector3 targetPosition = offset + cursorPos;
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocityV3, camFollowUp);
-        }
-        else
-        {
-            transform.position = Vector3.SmoothDamp(transform.position, new Vector3(2f, 3f, -10f), ref velocityV3, camFollowUp);
+            Vector3 targetPosition = _cameraOffset + cursorRef.position;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocityV3, _camSpeed);
         }
     }
-
-    private void Instance_OnPuzzleDone()
+    
+    private void ChangePuzzleCamera()
     {
-        _isActive = true;
-    }
-
-    private void Instance_OnStartButtonPress()
-    {
-        _isActive = false;
+        mainCam.enabled = !mainCam.enabled;
+        _puzzleCamera.enabled = !_puzzleCamera.enabled;
     }
 
     private void CameraZoom()
@@ -78,24 +92,25 @@ public class CameraScript : MonoBehaviour
         //zoom logic
         if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
         {
-            zoom-=0.5f;
-            zoomTimer = 7f;
-        } else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+            _orthoTarget -= 0.5f;
+            _zoomTimer = 7f;
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
         {
-            zoom+=0.5f;
-            zoomTimer = 7f;
+            _orthoTarget += 0.5f;
+            _zoomTimer = 7f;
         }
 
-        zoomTimer -= Time.deltaTime;
+        _orthoTarget = Mathf.Clamp(_orthoTarget, 5f, 8f);
 
-        //reset zoom timer
-        if(zoomTimer <= 0f)
+        mainCam.orthographicSize = Mathf.SmoothDamp(mainCam.orthographicSize, _orthoTarget, ref velocity, zoomSpeed);
+
+        _zoomTimer -= Time.deltaTime;
+        
+        if ( _zoomTimer <= 0f)
         {
-            zoom = 6f;
-            zoomTimer = 7f;
+            mainCam.orthographicSize = Mathf.SmoothDamp(mainCam.orthographicSize, _defaultOrtho, ref velocity, zoomSpeed);
+            _orthoTarget = _defaultOrtho;    
         }
-
-        //clamping the value between 6 to 8
-        zoom = Mathf.Clamp(zoom, 6, 8);
     }
 }

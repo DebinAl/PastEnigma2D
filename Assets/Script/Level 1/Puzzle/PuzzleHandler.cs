@@ -25,22 +25,23 @@ public class PuzzleHandler : MonoBehaviour
 
         var e = 0;
         var i = _answerAttempt.Count;
+        var isChecked = false;
 
         while (e < i)
         {            
             if(_answerAttempt[e] != _answerList[e])
             {
                 CheckAnswer();
+                isChecked = true;
             }
 
             e++;
         }
-        
-        if (_answerAttempt.Count.Equals(_answerList.Count))
+
+        if (_answerAttempt.Count.Equals(_answerList.Count) && !isChecked)
         {
             CheckAnswer();
         }
-
     }
 
     private void CreateAnswer()

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +15,7 @@ public class PlayerScript : MonoBehaviour
     private bool _isActive = true;
    
     Animator animator;
+    [SerializeField] Animator finishAnimator;
 
     void Start()
     {
@@ -87,6 +89,23 @@ public class PlayerScript : MonoBehaviour
         {
             _isGrounded = true;
         }
+        if (other.CompareTag("SpikeTrap"))
+        {
+            SceneManager.LoadScene("LevelScene");
+        }
+        if (other.CompareTag("Finish"))
+        {
+            finishAnimator.SetBool("finish", true);
+
+            StartCoroutine(Finish());
+        }
+    }
+
+    private IEnumerator Finish()
+    {
+        yield return new WaitForSeconds(3f);
+
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     private void OnTriggerExit2D (Collider2D other)

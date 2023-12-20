@@ -8,6 +8,8 @@ TagManager:
   - Button
   - ButtonStart
   - PuzzleCamera
+  - PuzzleCanvas
+  - SpikeTrap
   layers:
   - Default
   - TransparentFX

@@ -54,8 +54,7 @@ public class MouseFollowScript : MonoBehaviour
     private void MouseFollow()
     {
         _mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 playerPosition = new(_player.position.x, 0, _player.position.z);
-        _targetPos = (playerPosition + _mousePos) / 2f;
+        _targetPos = (_player.position + _mousePos) / 2f;
 
         _targetPos.x = Mathf.Clamp(_targetPos.x, -_thresholdX + _player.position.x, _thresholdX + _player.position.x);
         _targetPos.y = Mathf.Clamp(_targetPos.y, (-_thresholdY / 2f) + _player.position.y, _thresholdY + _player.position.y);
